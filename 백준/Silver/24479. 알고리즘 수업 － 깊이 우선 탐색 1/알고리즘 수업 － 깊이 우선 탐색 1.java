@@ -60,6 +60,11 @@ public class Main{
                 if(!visited.get(adj)){stack.push(adj);}
             }
         }
+        
+        // traversed[] 는 각 인덱스가 인덱스를 값으로 갖는 정점과 일대일 대응하므로, 이대로 출력시 각 노드의 방문 순번을 출력할 수 있다.
+        // 다만 이때 주의할 점은, 하나씩 돌며 출력하는 쪽이 더 간단하고 명료해보이지만,
+        // 로직 상으로는 번거롭더라도 StringBuilder를 통해 문자열을 만들어 출력하는 편이 아-주 더 빠른 실행시간을 제공한다.
+        // 거의 두 배 가까이 줄여준다.
         StringBuilder sb = new StringBuilder();
         for(int i = 1; i < traversed.length; i++){
             sb.append(traversed[i]);
