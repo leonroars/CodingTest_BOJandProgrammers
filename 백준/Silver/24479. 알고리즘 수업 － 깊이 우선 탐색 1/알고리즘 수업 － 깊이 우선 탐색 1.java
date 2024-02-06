@@ -9,6 +9,13 @@ import java.util.Comparator;
 import java.util.StringTokenizer;
 import java.util.Collections;
 
+// 풀이 접근
+// - 매 케이스마다 순회 시작 노드가 주어지므로, 시작 노드를 따로 저장해둘 int 변수가 필요하다.
+// - 그래프는 인접 리스트로 구현한다.
+// - 절차 별 설명은 주석으로 달아두었다.
+// - 다만 고민되는 점은, 오름차순 DFS를 위한 인접리스트의 정렬 부분이다.
+// - 정렬을 하지 않고 우선순위 큐와 같은 방식으로 인접 정점 리스트를 구현한다면 조금 더 효율적인 구현이 가능할 것 같다는
+//   직관적 생각이 든다.
 public class Main{
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -53,9 +60,12 @@ public class Main{
                 if(!visited.get(adj)){stack.push(adj);}
             }
         }
-
+        StringBuilder sb = new StringBuilder();
         for(int i = 1; i < traversed.length; i++){
-            System.out.println(traversed[i]);
+            sb.append(traversed[i]);
+            sb.append("\n");
         }
+        
+        System.out.println(sb.toString());
     }
 }
