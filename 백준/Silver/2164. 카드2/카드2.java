@@ -11,7 +11,7 @@ public class Main{
         for(int i = 1; i < input + 1; i++){
             q.addLast(i);
         }
-        
+        // Edge-Case : 입력이 1일 때를 고려한 조건 설계가 반드시 필요하다!
         while(q.size() > 1){
             q.removeFirst();
             if(q.size() >= 1){
