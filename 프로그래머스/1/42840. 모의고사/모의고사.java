@@ -1,5 +1,6 @@
 import java.util.*;
 
+// 만약 풀이가 지나치게 지저분해진다면, 다른 방식으로 접근하라는 뜻. 반드시 기억할 것!
 class Solution {
     public int[] solution(int[] answers) {
         int[] first = {1, 2, 3, 4, 5};
