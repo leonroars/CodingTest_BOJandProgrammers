@@ -3,6 +3,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 풀이 및 접근
+// 재귀적 DFS를 활용한 백트래킹을 요구하는 유형을 대표하는 문제이다. (나중에 알고봤더니.)
+// 재귀함수를 설계할 때 역시 가장 중요한 점은 기저 사례를 잘 선택하는 것이다.
+// 이번엔 기저사례를 결정하는 것이 '지금 만들려고 하는 글자 수'를 나타내는 인자인 'depth'였다.
+
 public class Main{
     static int N;
     static int M;
