@@ -30,7 +30,17 @@ public class Main{
 
         int front = 0;
         int rear = N - 1;
-
+        
+        // 이때 조건 분기를 하는 시나리오를 잘 생각해보아야한다.
+        // 정렬을 한 이후이므로, front는 오른쪽으로만 움직이는 것이 당연한데
+        // rear의 움직임을 어떻게 할 것인지 잘 생각해보아야한다.
+        // 만약 seq[front] + seq[rear] < target 일 경우 rear를 오른쪽으로 움직이고
+        // seq[front] + seq[rear] > target일 때 왼쪽으로 움직이는 등,
+        // 합의 대소관계에 따라 rear를 양방향으로 움직인다면 while문을 빠져나오지 못하고 진자처럼 무한으로 움직이게 될 것이다.
+        // 따라서 이러한 상황을 피하기 위해 front와 rear를 반드시 한 방향으로만 움직이도록(왼쪽) 로직을 설계한다.
+        // 실제로 rear는 왼쪽으로만 움직여도 문제 해결이 가능한데, 이는
+        // rear의 현 위치는 이미 그보다 큰 수를 탐색하고 나서 도달한 위치이기 때문에,
+        // 다시 오른쪽으로 이동할 필요가 없기 때문이다.
         while(rear > front){
             int currentSum = seq[front] + seq[rear];
             if(currentSum == target){front++; count++;}
