@@ -60,7 +60,7 @@ public class Main{
                 if(available[currentPick] == 0){visited[currentPick] = true;}
                 // 재귀 호출
                 sequence(currentDepth + 1, current);
-                // 원상 복귀
+                // 원래 상태로 복귀
                 if(available[currentPick] == 0){visited[currentPick] = false;}
                 available[currentPick] = beforeCnt;
             }
