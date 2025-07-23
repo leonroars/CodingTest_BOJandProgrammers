@@ -8,7 +8,7 @@ class Solution {
             int[] leftDays = new int[progresses.length]; // 각 작업 별 완료 후 배포 시까지 걸리는 시간
             for(int i = 0; i < progresses.length; i++){
                 leftDays[i] = 
-                    (int)(Math.ceil((double) ((100 - (double)progresses[i])) / (double) speeds[i]));
+                    (int)(Math.ceil((double) ((100 - progresses[i])) / speeds[i]));
             }
 
             int locator = 0; // 다음 배포될 작업을 결정하는 작업의 배열 인덱스.
