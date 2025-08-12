@@ -6,6 +6,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
+/*
+현 문제는 그리디 알고리즘을 이용해 구한 해가 최적해임이 성립한다.
+
+해당 문제가 Greedy Property 와 Optimal Substructure 성질을 만족하기 때문이다.
+
+<Greedy Property 증명>
+ '두 수 A, B에 대해 AB > BA이면 A를 B보다 앞에 배치하는 것이 최적이다.
+증명:
+최적해에서 어떤 위치에 B가 A보다 앞에 있다고 가정 (...BA...)
+AB > BA이므로, B와 A의 위치를 바꾸면 (...AB...)가 되어 더 큰 수가 됨
+이는 최적해라는 가정에 모순
+따라서 AB > BA일 때 A를 B보다 앞에 두는 것이 항상 최적
+
+<Optimal Substructure 증명>
+'n개 수의 최적해는 (n-1)개 수의 최적해를 포함한다.'
+증명:
+
+n개 수 {a₁, a₂, ..., aₙ}의 최적 배치를 S라고 하자
+S에서 맨 앞의 수를 제거한 부분을 S'이라고 하자.
+
+귀류법: S'이 (n-1)개 수의 최적해가 아니라고 가정.
+그러면 더 좋은 배치 T'이 존재한다.
+맨 앞 수를 T'에 붙인 결과가 S보다 좋아지는데, 이는 S가 최적이라는 가정에 모순된다.
+
+*/
+
 public class Main {
     
     static class NumberItem implements Comparable<NumberItem>{
