@@ -68,16 +68,11 @@ public class Main {
         public String printResult(){
             StringBuilder answer = new StringBuilder();
             
-            // 커서 맨 앞으로 이동. 한 번에 앞으로 가는 법은 없을까?
-            while(iter.hasPrevious()){iter.previous();}
-            
-            while(iter.hasNext()){
-                answer.append(iter.next());
+            for(Character ch : parsed){
+                answer.append(ch);
             }
             
             return answer.toString();
         }
-        
-        
     }
 }
