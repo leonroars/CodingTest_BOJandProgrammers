@@ -1,93 +1,124 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Arrays;
 
 public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int vertices = Integer.parseInt(st.nextToken());
-        int edges = Integer.parseInt(st.nextToken());
-
-        Graph graph = new Graph(vertices);
-
-        int start = Integer.parseInt(br.readLine());
-
-        for (int i = 0; i < edges; i++) {
+        
+        int V = Integer.parseInt(st.nextToken());
+        int E = Integer.parseInt(st.nextToken());
+        
+        DirectedGraph g = new DirectedGraph(V, E);
+        
+        int source = Integer.parseInt(br.readLine());
+        
+        for(int e = 0; e < E; e++){
             st = new StringTokenizer(br.readLine());
-            int from = Integer.parseInt(st.nextToken());
-            int to = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
-
-            graph.addEdge(from, to, weight);
+            
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
+            
+            g.addEdge(u, v, w);
         }
-
-        int[] distances = graph.shortestPath(start);
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < distances.length; i++) {
-            sb.append(distances[i] == Integer.MAX_VALUE ? "INF" : distances[i]).append("\n");
+        
+        g.runDijkstra(source);
+        
+        StringBuilder answer = new StringBuilder();
+        
+        for(int v = 1; v < V + 1; v++){
+            answer.append(g.getShortestDistTo(v));
+            if(v < V){answer.append("\n");}
         }
-
-        System.out.println(sb.toString());
+        
+        System.out.print(answer.toString());
     }
-
-    static class Graph {
-        private int vertices;
-        private List<List<Vertex>> adj;
-        private int[] dist;
-
-        public Graph(int vertices) {
-            this.vertices = vertices;
-            adj = new ArrayList<>(vertices + 1);
-            for (int i = 0; i <= vertices; i++) {
-                adj.add(new ArrayList<>());
+    
+    static class DirectedGraph {
+        static ArrayList<DirectedEdge>[] graph;
+        static int V;
+        static int E;
+        static int INF = Integer.MAX_VALUE;
+        static int[] distFromSource;
+        
+        public DirectedGraph(int numberOfVertex, int numberOfEdge){
+            this.V = numberOfVertex;
+            this.E = numberOfEdge;
+            this.distFromSource = new int[numberOfVertex + 1];
+            graph = new ArrayList[numberOfVertex + 1];
+           
+            Arrays.fill(distFromSource, this.INF);
+            for(int i = 1; i < V + 1; i++){
+                graph[i] = new ArrayList<DirectedEdge>();
             }
-            dist = new int[vertices + 1];
-            Arrays.fill(dist, Integer.MAX_VALUE);
         }
-
-        public void addEdge(int v, int w, int weight) {
-            adj.get(v).add(new Vertex(w, weight));
+        
+        public static void addEdge(int u, int v, int w){
+            DirectedEdge edge = new DirectedEdge(u, v, w);
+            graph[u].add(edge);
         }
-
-        public int[] shortestPath(int start) {
-            PriorityQueue<Vertex> pq = new PriorityQueue<>(Comparator.comparingInt(Vertex::getDist));
-            pq.add(new Vertex(start, 0));
-            dist[start] = 0;
-
-            while (!pq.isEmpty()) {
-                Vertex current = pq.poll();
-                int vertexNum = current.getNum();
-
-                for (Vertex neighbor : adj.get(vertexNum)) {
-                    int newDist = dist[vertexNum] + neighbor.getDist();
-                    if (newDist < dist[neighbor.getNum()]) {
-                        dist[neighbor.getNum()] = newDist;
-                        pq.add(new Vertex(neighbor.getNum(), dist[neighbor.getNum()]));
+        
+        public static void runDijkstra(int source){
+            PriorityQueue<Node> pq = new PriorityQueue<>();
+            
+            pq.add(new Node(source, 0));
+            
+            while(!pq.isEmpty()){
+                // PQ 에서 Greedy 하게 뽑은 것은 최단거리가 확정됨이 증명 가능.
+                Node current = pq.poll();
+                
+                // 아직 확정되지 않은 경우에만 갱신.
+                if(distFromSource[current.num] == INF){
+                    distFromSource[current.num] = current.dist;
+                    // 인접 정점들까지의 거리를 계산해 PQ에 삽입
+                    
+                    for(DirectedEdge edge : graph[current.num]){
+                        int adj = edge.to;
+                        int adjDist = distFromSource[current.num] + edge.weight;
+                        pq.add(new Node(adj, adjDist));
                     }
                 }
             }
-
-            return dist;
         }
-
-        static class Vertex {
-            private int vertexNum;
-            private int weight;
-
-            public Vertex(int vertexNum, int weight) {
-                this.vertexNum = vertexNum;
-                this.weight = weight;
+        
+        public static String getShortestDistTo(int vertexNum){
+            if(distFromSource[vertexNum] == Integer.MAX_VALUE){
+                return "INF";
             }
-
-            public int getDist() {
-                return weight;
+            return Integer.toString(distFromSource[vertexNum]);
+        }
+        
+        static class DirectedEdge {
+            int from;
+            int to;
+            int weight;
+            
+            public DirectedEdge(int u, int v, int w){
+                this.from = u;
+                this.to = v;
+                this.weight = w;
             }
-
-            public int getNum() {
-                return vertexNum;
+        }
+        
+        static class Node implements Comparable<Node> {
+            int num;
+            int dist;
+            
+            public Node(int vertexNum, int distFromSource){
+                this.num = vertexNum;
+                this.dist = distFromSource;
+            }
+            
+            @Override
+            public int compareTo(Node thatNode){
+                return Integer.compare(this.dist, thatNode.dist);
             }
         }
     }
