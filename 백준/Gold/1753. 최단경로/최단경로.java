@@ -75,6 +75,10 @@ public class Main {
                 Node current = pq.poll();
                 
                 // 아직 확정되지 않은 경우에만 갱신.
+                // Robert Sedgewick이 제안한 Indexed PQ 를 활용하는 경우엔 중복 여부를 Eager 하게 확인 및 갱신 가능.
+                // But, Java Collection PQ 사용 시, 불가하므로 Lazy 하게 갱신을 하게 된다.
+                // 따라서, 'PQ에서 꺼낸 가장 최단거리의 정점만이 최단거리임이 확정 가능하다'는 부분에 맞게 작성해야함.
+                // 그래야 중복을 피할 수 있음.
                 if(distFromSource[current.num] == INF){
                     distFromSource[current.num] = current.dist;
                     // 인접 정점들까지의 거리를 계산해 PQ에 삽입
