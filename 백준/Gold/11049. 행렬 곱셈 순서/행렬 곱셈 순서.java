@@ -54,9 +54,8 @@ public class Main {
         }
         else {
             int minByFarForIAndJ = Integer.MAX_VALUE;
-            for(int k = i + 1; k < j; k++){
-                int currentMin = Math.min(dp[i][k-1] + dp[k][j] + multiplyMatrices(matrices[i][0], matrices[k-1][1], matrices[k][0], matrices[j][1])
-                                          , dp[i][k] + dp[k + 1][j] + multiplyMatrices(matrices[i][0], matrices[k][1], matrices[k+1][0], matrices[j][1]));
+            for(int k = i; k < j; k++){
+                int currentMin = dp[i][k] + dp[k + 1][j] + multiplyMatrices(matrices[i][0], matrices[k][1], matrices[k+1][0], matrices[j][1]);
                 
                 minByFarForIAndJ = Math.min(minByFarForIAndJ, currentMin);
             }
